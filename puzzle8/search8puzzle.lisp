@@ -1,3 +1,7 @@
+;;Josh Datko <jbd65>
+;;CS510 Assignment 1
+;;15OCT12
+
 ;;The results queue is used for gather statistics
 (defparameter results (make-empty-queue) "Queue in which results of runs are entered")
 
@@ -187,14 +191,6 @@
 		 '0)))
 
 
-;; (defun expand-node (current-node next-env frontier explored)
-;;   "For BFS / DFS expand the node and enter it into the frontier"
-;;   (let ((child (make-node (car next-env) current-node (cadr next-env) '0)))
-;;     (unless (or (is-in-q child frontier)
-;; 		(is-in-set (car child) explored))
-;;     (enqueue child frontier))))
-
-
 (defun exists-in (node frontier explored)
   "Membershp test for BFS/DFS frontiers and explored sets"
   (if (or (is-in-q node frontier)
@@ -210,6 +206,7 @@
 			 (successor (car node))))
 
 (defun expand (node frontier explored)
+  "Expand the node for BFS/DFS searchs and enqueue to frontier if not already there"
   (dolist (child (get-child node))
     (if (exists-in child frontier explored)
 	nil
@@ -218,14 +215,6 @@
 	    (progn (setf *num-expanded* (+ *num-expanded* 1))
 		   (enqueue child frontier)
 		   nil)))))
-
-
-(defun solve-8puzzle (algo puzzle)
-  "Main search entry point.  It will return a list of moves that solved the puzzle."
-  (case algo
-    ('BFS (blind-search puzzle (make-instance 'fifo-queue) 'BFS))
-    ('DFS (blind-search puzzle (make-instance 'lifo-queue) 'DFS))
-    ('ASTAR (astar puzzle))))
 
 
 ;;Functions to gather the statistics
@@ -242,7 +231,14 @@
 
 ;;Main Search Routines
 
-(defun blind-search (puzzle frontier algo)
+(defun solve-8puzzle (algo puzzle)
+  "Main search entry point.  It will return a list of moves that solved the puzzle."
+  (case algo
+    ('BFS (graph-search puzzle (make-instance 'fifo-queue) 'BFS))
+    ('DFS (graph-search puzzle (make-instance 'lifo-queue) 'DFS))
+    ('ASTAR (astar puzzle))))
+
+(defun graph-search (puzzle frontier algo)
   "Peform an uninformed search (i.e. BFS or DFS) on the puzzle using the passed in frontier.
    Depending on the type of queue, this method will either be BFS or DFS"
   (defparameter *num-expanded* 0) ;;for stats gathering
@@ -258,7 +254,7 @@
 	      (let ((sol (expand current frontier explored)))
 		(if sol
 		    (progn (build-result-entry *num-expanded* algo sol) ;;build the stats data
-			   (return-from blind-search sol)) ;; return with the solution
+			   (return-from graph-search sol)) ;; return with the solution
 		    sol))))))))
 
 (defun astar (puzzle)
