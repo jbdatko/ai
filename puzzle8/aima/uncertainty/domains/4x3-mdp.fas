@@ -1,0 +1,107 @@
+(|SYSTEM|::|VERSION| '(20080430.))
+#0Y_ #0Y |CHARSET|::|UTF-8|
+#Y(#:|1 14 (DEFPARAMETER *4X3-MDP* (MAKE-MDP :INITIAL-STATE '# ...))-1|
+   #28Y(00 00 00 00 00 00 00 00 20 01 DA 31 62 DB DC DD DE DF E0 E1 6E 06 08 31
+        5A C6 19 01)
+   ((|COMMON-LISP|::|SPECIAL| |COMMON-LISP-USER|::|*4X3-MDP*|)
+    |COMMON-LISP-USER|::|*4X3-MDP*| :|INITIAL-STATE| (1. 1.) :|TERMINAL-STATES|
+    ((4. 2.) (4. 3.)) :|NAME| "4x3-mdp" |COMMON-LISP-USER|::|MAKE-MDP|)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
+#Y(#:|16 61 (DEFPARAMETER *4X3-M-DATA* '(# # # ...))-2|
+   #20Y(00 00 00 00 00 00 00 00 20 01 DA 31 62 DB DC 31 5A C6 19 01)
+   ((|COMMON-LISP|::|SPECIAL| |COMMON-LISP-USER|::|*4X3-M-DATA*|)
+    |COMMON-LISP-USER|::|*4X3-M-DATA*|
+    (((1. 1.) (|COMMON-LISP-USER|::|LEFT| (((1. 1.) 0.9f0) ((1. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|RIGHT|
+       (((2. 1.) 0.8f0) ((1. 2.) 0.1f0) ((1. 1.) 0.1f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((1. 2.) 0.8f0) ((2. 1.) 0.1f0) ((1. 1.) 0.1f0)))
+      (|COMMON-LISP-USER|::|DOWN| (((1. 1.) 0.9f0) ((2. 1.) 0.1f0))))
+     ((1. 2.)
+      (|COMMON-LISP-USER|::|LEFT|
+       (((1. 2.) 0.8f0) ((1. 1.) 0.1f0) ((1. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|RIGHT|
+       (((1. 2.) 0.8f0) ((1. 1.) 0.1f0) ((1. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|UP| (((1. 2.) 0.2f0) ((1. 3.) 0.8f0)))
+      (|COMMON-LISP-USER|::|DOWN| (((1. 2.) 0.2f0) ((1. 1.) 0.8f0))))
+     ((1. 3.) (|COMMON-LISP-USER|::|LEFT| (((1. 3.) 0.9f0) ((1. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|RIGHT|
+       (((1. 3.) 0.1f0) ((2. 3.) 0.8f0) ((1. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|UP| (((1. 3.) 0.9f0) ((2. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|DOWN|
+       (((1. 3.) 0.1f0) ((2. 3.) 0.1f0) ((1. 2.) 0.8f0))))
+     ((2. 1.) (|COMMON-LISP-USER|::|LEFT| (((2. 1.) 0.2f0) ((1. 1.) 0.8f0)))
+      (|COMMON-LISP-USER|::|RIGHT| (((2. 1.) 0.2f0) ((3. 1.) 0.8f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((2. 1.) 0.8f0) ((1. 1.) 0.1f0) ((3. 1.) 0.1f0)))
+      (|COMMON-LISP-USER|::|DOWN|
+       (((2. 1.) 0.8f0) ((1. 1.) 0.1f0) ((3. 1.) 0.1f0))))
+     ((2. 3.) (|COMMON-LISP-USER|::|LEFT| (((2. 3.) 0.2f0) ((1. 3.) 0.8f0)))
+      (|COMMON-LISP-USER|::|RIGHT| (((2. 3.) 0.2f0) ((3. 3.) 0.8f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((2. 3.) 0.8f0) ((1. 3.) 0.1f0) ((3. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|DOWN|
+       (((2. 3.) 0.8f0) ((1. 3.) 0.1f0) ((3. 3.) 0.1f0))))
+     ((3. 1.)
+      (|COMMON-LISP-USER|::|LEFT|
+       (((3. 1.) 0.1f0) ((3. 2.) 0.1f0) ((2. 1.) 0.8f0)))
+      (|COMMON-LISP-USER|::|RIGHT|
+       (((3. 1.) 0.1f0) ((3. 2.) 0.1f0) ((4. 1.) 0.8f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((3. 2.) 0.8f0) ((2. 1.) 0.1f0) ((4. 1.) 0.1f0)))
+      (|COMMON-LISP-USER|::|DOWN|
+       (((3. 1.) 0.8f0) ((2. 1.) 0.1f0) ((4. 1.) 0.1f0))))
+     ((3. 2.)
+      (|COMMON-LISP-USER|::|LEFT|
+       (((3. 2.) 0.8f0) ((3. 1.) 0.1f0) ((3. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|RIGHT|
+       (((4. 2.) 0.8f0) ((3. 1.) 0.1f0) ((3. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((3. 2.) 0.1f0) ((4. 2.) 0.1f0) ((3. 3.) 0.8f0)))
+      (|COMMON-LISP-USER|::|DOWN|
+       (((3. 2.) 0.1f0) ((4. 2.) 0.1f0) ((3. 1.) 0.8f0))))
+     ((3. 3.)
+      (|COMMON-LISP-USER|::|LEFT|
+       (((2. 3.) 0.8f0) ((3. 3.) 0.1f0) ((3. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|RIGHT|
+       (((3. 2.) 0.1f0) ((4. 3.) 0.8f0) ((3. 3.) 0.1f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((2. 3.) 0.1f0) ((4. 3.) 0.1f0) ((3. 3.) 0.8f0)))
+      (|COMMON-LISP-USER|::|DOWN|
+       (((3. 2.) 0.8f0) ((2. 3.) 0.1f0) ((4. 3.) 0.1f0))))
+     ((4. 1.)
+      (|COMMON-LISP-USER|::|LEFT|
+       (((4. 1.) 0.1f0) ((3. 1.) 0.8f0) ((4. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|RIGHT| (((4. 1.) 0.9f0) ((4. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|UP|
+       (((4. 2.) 0.8f0) ((4. 1.) 0.1f0) ((3. 2.) 0.1f0)))
+      (|COMMON-LISP-USER|::|DOWN| (((4. 1.) 0.9f0) ((3. 1.) 0.1f0))))
+     ((4. 2.) (|COMMON-LISP-USER|::|LEFT| |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP-USER|::|RIGHT| |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP-USER|::|UP| |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP-USER|::|DOWN| |COMMON-LISP|::|NIL|))
+     ((4. 3.) (|COMMON-LISP-USER|::|LEFT| |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP-USER|::|RIGHT| |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP-USER|::|UP| |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP-USER|::|DOWN| |COMMON-LISP|::|NIL|))))
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
+#Y(#:|63 67 (DEFPARAMETER *4X3-R-DATA* '(# # # ...))-3|
+   #20Y(00 00 00 00 00 00 00 00 20 01 DA 31 62 DB DC 31 5A C6 19 01)
+   ((|COMMON-LISP|::|SPECIAL| |COMMON-LISP-USER|::|*4X3-R-DATA*|)
+    |COMMON-LISP-USER|::|*4X3-R-DATA*|
+    (((1. 1.) -0.04f0) ((1. 2.) -0.04f0) ((1. 3.) -0.04f0) ((2. 1.) -0.04f0)
+     ((2. 3.) -0.04f0) ((3. 1.) -0.04f0) ((3. 2.) -0.04f0) ((3. 3.) -0.04f0)
+     ((4. 1.) -0.04f0) ((4. 2.) -1.) ((4. 3.) 1.)))
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
+#Y(#:|70 71 (DOLIST (SD *4X3-M-DATA*) (SETF # #))-4|
+   #45Y(00 00 00 00 00 00 00 00 20 01 6B 00 63 1B 17 87 01 00 78 6B 01 DC AD DD
+        81 43 00 95 02 AE AE AE 31 6F 16 03 83 01 AD 8D 9F 65 00 19 03)
+   (|COMMON-LISP-USER|::|*4X3-M-DATA*| |COMMON-LISP-USER|::|*4X3-MDP*|
+    |COMMON-LISP-USER|::|MDP| 2.)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
+#Y(#:|72 73 (DOLIST (SR *4X3-R-DATA*) (SETF # #))-5|
+   #46Y(00 00 00 00 00 00 00 00 20 01 6B 00 63 1B 18 87 01 00 78 6B 01 DC AD DD
+        81 43 00 9F 5C 78 AE AE AE 31 6F 16 03 83 01 AD 8D 9F 64 00 19 03)
+   (|COMMON-LISP-USER|::|*4X3-R-DATA*| |COMMON-LISP-USER|::|*4X3-MDP*|
+    |COMMON-LISP-USER|::|MDP| 3.)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))

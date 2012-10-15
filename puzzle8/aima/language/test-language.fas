@@ -1,0 +1,242 @@
+(|SYSTEM|::|VERSION| '(20080430.))
+#0Y_ #0Y |CHARSET|::|UTF-8|
+#Y(#:|2 81 (DEFTEST LANGUAGE "Test the chart parser on some grammars." ...)-1|
+   #16Y(00 00 00 00 00 00 00 00 20 01 DA DB 30 02 19 01)
+   (|COMMON-LISP-USER|::|LANGUAGE|
+    ("Test the chart parser on some grammars."
+     "First the simple E0 grammar from page 665."
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|I| |COMMON-LISP-USER|::|SMELL|
+         |COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|STENCH|)
+       |COMMON-LISP-USER|::|*E0*|)
+      '((|COMMON-LISP-USER|::|S|
+         (|COMMON-LISP-USER|::|NP|
+          (|COMMON-LISP-USER|::|PRONOUN| |COMMON-LISP-USER|::|I|))
+         (|COMMON-LISP-USER|::|VP|
+          (|COMMON-LISP-USER|::|VP|
+           (|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|SMELL|))
+          (|COMMON-LISP-USER|::|NP|
+           (|COMMON-LISP-USER|::|ARTICLE| |COMMON-LISP-USER|::|A|)
+           (|COMMON-LISP-USER|::|NOUN| |COMMON-LISP-USER|::|STENCH|))))))
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|GOLD|
+         |COMMON-LISP-USER|::|IS| |COMMON-LISP-USER|::|IN| 2. 2.)
+       |COMMON-LISP-USER|::|*E0*|)
+      '((|COMMON-LISP-USER|::|S|
+         (|COMMON-LISP-USER|::|NP|
+          (|COMMON-LISP-USER|::|ARTICLE| |COMMON-LISP|::|THE|)
+          (|COMMON-LISP-USER|::|NOUN| |COMMON-LISP-USER|::|GOLD|))
+         (|COMMON-LISP-USER|::|VP|
+          (|COMMON-LISP-USER|::|VP|
+           (|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|IS|))
+          (|COMMON-LISP-USER|::|PP|
+           (|COMMON-LISP-USER|::|PREPOSITION| |COMMON-LISP-USER|::|IN|)
+           (|COMMON-LISP-USER|::|NP| (|COMMON-LISP-USER|::|DIGIT| 2.)
+            (|COMMON-LISP-USER|::|DIGIT| 2.)))))))
+     "Now the E1 grammar to show how pronoun case is handled."
+     "It is grammatical to use 'I' as a subject, but not 'me'."
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|I| |COMMON-LISP-USER|::|SHOT|
+         |COMMON-LISP|::|THE| |COMMON-LISP-USER|::|WUMPUS|)
+       |COMMON-LISP-USER|::|*E1*|)
+      (|COMMON-LISP-USER|::|RENAMING?| |COMMON-LISP|::|*|
+       '((|COMMON-LISP-USER|::|S|
+          ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|SUBJECTIVE|)
+           ((|COMMON-LISP-USER|::|PRONOUN| |COMMON-LISP-USER|::|SUBJECTIVE|)
+            |COMMON-LISP-USER|::|I|))
+          (|COMMON-LISP-USER|::|VP|
+           (|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|SHOT|)
+           ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|$CASE.10|)
+            (|COMMON-LISP-USER|::|ARTICLE| |COMMON-LISP|::|THE|)
+            (|COMMON-LISP-USER|::|NOUN| |COMMON-LISP-USER|::|WUMPUS|)))))))
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|ME| |COMMON-LISP-USER|::|SHOT|
+         |COMMON-LISP|::|THE| |COMMON-LISP-USER|::|WUMPUS|)
+       |COMMON-LISP-USER|::|*E1*|)
+      '|COMMON-LISP|::|NIL|)
+     "The E0 grammar allows anything (including 'me') as a subject:"
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|ME| |COMMON-LISP-USER|::|SHOT|
+         |COMMON-LISP|::|THE| |COMMON-LISP-USER|::|WUMPUS|)
+       |COMMON-LISP-USER|::|*E0*|)
+      '((|COMMON-LISP-USER|::|S|
+         (|COMMON-LISP-USER|::|NP|
+          (|COMMON-LISP-USER|::|PRONOUN| |COMMON-LISP-USER|::|ME|))
+         (|COMMON-LISP-USER|::|VP|
+          (|COMMON-LISP-USER|::|VP|
+           (|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|SHOT|))
+          (|COMMON-LISP-USER|::|NP|
+           (|COMMON-LISP-USER|::|ARTICLE| |COMMON-LISP|::|THE|)
+           (|COMMON-LISP-USER|::|NOUN| |COMMON-LISP-USER|::|WUMPUS|))))))
+     "Now for a longer sentence"
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|I| |COMMON-LISP-USER|::|SEE| |COMMON-LISP|::|THE|
+         |COMMON-LISP-USER|::|WUMPUS| |COMMON-LISP-USER|::|IN| 2. 3.
+         |COMMON-LISP|::|AND| |COMMON-LISP-USER|::|IT| |COMMON-LISP-USER|::|IS|
+         |COMMON-LISP-USER|::|SMELLY|)
+       |COMMON-LISP-USER|::|*E1*|)
+      (|COMMON-LISP-USER|::|RENAMING?| |COMMON-LISP|::|*|
+       '((|COMMON-LISP-USER|::|S|
+          (|COMMON-LISP-USER|::|S|
+           ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|SUBJECTIVE|)
+            ((|COMMON-LISP-USER|::|PRONOUN| |COMMON-LISP-USER|::|SUBJECTIVE|)
+             |COMMON-LISP-USER|::|I|))
+           (|COMMON-LISP-USER|::|VP|
+            (|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|SEE|)
+            ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|$CASE.218|)
+             ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|$CASE.220|)
+              (|COMMON-LISP-USER|::|ARTICLE| |COMMON-LISP|::|THE|)
+              (|COMMON-LISP-USER|::|NOUN| |COMMON-LISP-USER|::|WUMPUS|))
+             (|COMMON-LISP-USER|::|PP|
+              (|COMMON-LISP-USER|::|PREPOSITION| |COMMON-LISP-USER|::|IN|)
+              ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|$CASE.225|)
+               (|COMMON-LISP-USER|::|DIGIT| 2.)
+               (|COMMON-LISP-USER|::|DIGIT| 3.))))))
+          (|COMMON-LISP-USER|::|CONJUNCTION| |COMMON-LISP|::|AND|)
+          (|COMMON-LISP-USER|::|S|
+           ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|$CASE.234|)
+            ((|COMMON-LISP-USER|::|PRONOUN| |COMMON-LISP-USER|::|$CASE|)
+             |COMMON-LISP-USER|::|IT|))
+           (|COMMON-LISP-USER|::|VP|
+            (|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|IS|)
+            (|COMMON-LISP-USER|::|ADJECTIVE|
+             |COMMON-LISP-USER|::|SMELLY|)))))))
+     "An example from the simple arithmetic grammar."
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|[| 1. |COMMON-LISP|::|+| 2.
+         |COMMON-LISP-USER|::|]| |COMMON-LISP|::|*| 3. 0.)
+       |COMMON-LISP-USER|::|*ARITHMETIC-GRAMMAR*|)
+      '(((|COMMON-LISP|::|EXP|
+          (|COMMON-LISP|::|*| (|COMMON-LISP|::|+| 1. 2.)
+           (|COMMON-LISP|::|+| (|COMMON-LISP|::|*| 10. 3.) 0.)))
+         ((|COMMON-LISP|::|EXP| (|COMMON-LISP|::|+| 1. 2.))
+          (|COMMON-LISP-USER|::|[| |COMMON-LISP-USER|::|[|)
+          ((|COMMON-LISP|::|EXP| (|COMMON-LISP|::|+| 1. 2.))
+           ((|COMMON-LISP|::|EXP| 1.)
+            ((|COMMON-LISP|::|NUMBER| 1.)
+             ((|COMMON-LISP-USER|::|DIGIT| 1.) 1.)))
+           ((|COMMON-LISP-USER|::|OPERATOR| |COMMON-LISP|::|+|)
+            |COMMON-LISP|::|+|)
+           ((|COMMON-LISP|::|EXP| 2.)
+            ((|COMMON-LISP|::|NUMBER| 2.)
+             ((|COMMON-LISP-USER|::|DIGIT| 2.) 2.))))
+          (|COMMON-LISP-USER|::|]| |COMMON-LISP-USER|::|]|))
+         ((|COMMON-LISP-USER|::|OPERATOR| |COMMON-LISP|::|*|)
+          |COMMON-LISP|::|*|)
+         ((|COMMON-LISP|::|EXP|
+           (|COMMON-LISP|::|+| (|COMMON-LISP|::|*| 10. 3.) 0.))
+          ((|COMMON-LISP|::|NUMBER|
+            (|COMMON-LISP|::|+| (|COMMON-LISP|::|*| 10. 3.) 0.))
+           ((|COMMON-LISP|::|NUMBER| 3.) ((|COMMON-LISP-USER|::|DIGIT| 3.) 3.))
+           ((|COMMON-LISP-USER|::|DIGIT| 0.) 0.))))))
+     "The function MEANINGS picks out just the semantics"
+     ((|COMMON-LISP-USER|::|MEANINGS|
+       '(|COMMON-LISP-USER|::|[| 1. |COMMON-LISP|::|+| 2.
+         |COMMON-LISP-USER|::|]| |COMMON-LISP|::|*| 3. 0.)
+       |COMMON-LISP-USER|::|*ARITHMETIC-GRAMMAR*|)
+      '((|COMMON-LISP|::|*| (|COMMON-LISP|::|+| 1. 2.)
+         (|COMMON-LISP|::|+| (|COMMON-LISP|::|*| 10. 3.) 0.))))
+     "Note that strings can be ambiguous, yielding two or more parses."
+     ((|COMMON-LISP-USER|::|MEANINGS|
+       '(1. |COMMON-LISP|::|+| 2. |COMMON-LISP|::|*| 3.)
+       |COMMON-LISP-USER|::|*ARITHMETIC-GRAMMAR*|)
+      '((|COMMON-LISP|::|*| (|COMMON-LISP|::|+| 1. 2.) 3.)
+        (|COMMON-LISP|::|+| 1. (|COMMON-LISP|::|*| 2. 3.))))
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(1. |COMMON-LISP|::|+| 2. |COMMON-LISP|::|*| 3.)
+       |COMMON-LISP-USER|::|*ARITHMETIC-GRAMMAR*|)
+      '(((|COMMON-LISP|::|EXP|
+          (|COMMON-LISP|::|*| (|COMMON-LISP|::|+| 1. 2.) 3.))
+         ((|COMMON-LISP|::|EXP| (|COMMON-LISP|::|+| 1. 2.))
+          ((|COMMON-LISP|::|EXP| 1.)
+           ((|COMMON-LISP|::|NUMBER| 1.)
+            ((|COMMON-LISP-USER|::|DIGIT| 1.) 1.)))
+          ((|COMMON-LISP-USER|::|OPERATOR| |COMMON-LISP|::|+|)
+           |COMMON-LISP|::|+|)
+          ((|COMMON-LISP|::|EXP| 2.)
+           ((|COMMON-LISP|::|NUMBER| 2.)
+            ((|COMMON-LISP-USER|::|DIGIT| 2.) 2.))))
+         ((|COMMON-LISP-USER|::|OPERATOR| |COMMON-LISP|::|*|)
+          |COMMON-LISP|::|*|)
+         ((|COMMON-LISP|::|EXP| 3.)
+          ((|COMMON-LISP|::|NUMBER| 3.)
+           ((|COMMON-LISP-USER|::|DIGIT| 3.) 3.))))
+        ((|COMMON-LISP|::|EXP|
+          (|COMMON-LISP|::|+| 1. (|COMMON-LISP|::|*| 2. 3.)))
+         ((|COMMON-LISP|::|EXP| 1.)
+          ((|COMMON-LISP|::|NUMBER| 1.) ((|COMMON-LISP-USER|::|DIGIT| 1.) 1.)))
+         ((|COMMON-LISP-USER|::|OPERATOR| |COMMON-LISP|::|+|)
+          |COMMON-LISP|::|+|)
+         ((|COMMON-LISP|::|EXP| (|COMMON-LISP|::|*| 2. 3.))
+          ((|COMMON-LISP|::|EXP| 2.)
+           ((|COMMON-LISP|::|NUMBER| 2.)
+            ((|COMMON-LISP-USER|::|DIGIT| 2.) 2.)))
+          ((|COMMON-LISP-USER|::|OPERATOR| |COMMON-LISP|::|*|)
+           |COMMON-LISP|::|*|)
+          ((|COMMON-LISP|::|EXP| 3.)
+           ((|COMMON-LISP|::|NUMBER| 3.)
+            ((|COMMON-LISP-USER|::|DIGIT| 3.) 3.)))))))
+     ((|COMMON-LISP-USER|::|CHART-PARSES|
+       '(|COMMON-LISP-USER|::|I| |COMMON-LISP-USER|::|SHOT|
+         |COMMON-LISP|::|THE| |COMMON-LISP-USER|::|WUMPUS|
+         |COMMON-LISP-USER|::|THAT| |COMMON-LISP-USER|::|STINKS|)
+       |COMMON-LISP-USER|::|*E2*|)
+      (|COMMON-LISP-USER|::|RENAMING?| |COMMON-LISP|::|*|
+       '(((|COMMON-LISP-USER|::|S|
+           ((|COMMON-LISP-USER|::|SHOT|
+             (|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|$X.648|
+              (|COMMON-LISP|::|AND|
+               (|COMMON-LISP-USER|::|WUMPUS| |COMMON-LISP-USER|::|$X.648|)
+               (|COMMON-LISP-USER|::|STINKS| |COMMON-LISP-USER|::|$X.648|))))
+            |COMMON-LISP-USER|::|I|))
+          ((|COMMON-LISP-USER|::|NP| |COMMON-LISP-USER|::|I|)
+           ((|COMMON-LISP-USER|::|PRONOUN| |COMMON-LISP-USER|::|I|)
+            |COMMON-LISP-USER|::|I|))
+          ((|COMMON-LISP-USER|::|VP|
+            (|COMMON-LISP-USER|::|SHOT|
+             (|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|$X.648|
+              (|COMMON-LISP|::|AND|
+               (|COMMON-LISP-USER|::|WUMPUS| |COMMON-LISP-USER|::|$X.648|)
+               (|COMMON-LISP-USER|::|STINKS| |COMMON-LISP-USER|::|$X.648|)))))
+           ((|COMMON-LISP-USER|::|VP| |COMMON-LISP-USER|::|SHOT|)
+            ((|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|SHOT|)
+             |COMMON-LISP-USER|::|SHOT|))
+           ((|COMMON-LISP-USER|::|NP|
+             (|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|$X.648|
+              (|COMMON-LISP|::|AND|
+               (|COMMON-LISP-USER|::|WUMPUS| |COMMON-LISP-USER|::|$X.648|)
+               (|COMMON-LISP-USER|::|STINKS| |COMMON-LISP-USER|::|$X.648|))))
+            ((|COMMON-LISP-USER|::|NP|
+              (|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|$X.655|
+               (|COMMON-LISP-USER|::|WUMPUS| |COMMON-LISP-USER|::|$X.655|)))
+             ((|COMMON-LISP-USER|::|ARTICLE| |COMMON-LISP|::|THE|)
+              |COMMON-LISP|::|THE|)
+             ((|COMMON-LISP-USER|::|NOUN| |COMMON-LISP-USER|::|WUMPUS|)
+              |COMMON-LISP-USER|::|WUMPUS|))
+            ((|COMMON-LISP-USER|::|RELCLAUSE| |COMMON-LISP-USER|::|STINKS|)
+             (|COMMON-LISP-USER|::|THAT| |COMMON-LISP-USER|::|THAT|)
+             ((|COMMON-LISP-USER|::|VP| |COMMON-LISP-USER|::|STINKS|)
+              ((|COMMON-LISP-USER|::|VERB| |COMMON-LISP-USER|::|STINKS|)
+               |COMMON-LISP-USER|::|STINKS|)))))))))
+     ((|COMMON-LISP-USER|::|MEANINGS|
+       '(|COMMON-LISP-USER|::|I| |COMMON-LISP-USER|::|SHOOT|
+         |COMMON-LISP|::|THE| |COMMON-LISP-USER|::|WUMPUS|
+         |COMMON-LISP-USER|::|THAT| |COMMON-LISP-USER|::|STINKS|
+         |COMMON-LISP|::|AND| |COMMON-LISP-USER|::|I|
+         |COMMON-LISP-USER|::|GRAB| |COMMON-LISP|::|THE|
+         |COMMON-LISP-USER|::|GOLD|)
+       |COMMON-LISP-USER|::|*E2*|)
+      (|COMMON-LISP-USER|::|RENAMING?| |COMMON-LISP|::|*|
+       '((|COMMON-LISP|::|AND|
+          ((|COMMON-LISP-USER|::|SHOOT|
+            (|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|$X.746|
+             (|COMMON-LISP|::|AND|
+              (|COMMON-LISP-USER|::|WUMPUS| |COMMON-LISP-USER|::|$X.746|)
+              (|COMMON-LISP-USER|::|STINKS| |COMMON-LISP-USER|::|$X.746|))))
+           |COMMON-LISP-USER|::|I|)
+          ((|COMMON-LISP-USER|::|GRAB|
+            (|COMMON-LISP|::|THE| |COMMON-LISP-USER|::|$X.851|
+             (|COMMON-LISP-USER|::|GOLD| |COMMON-LISP-USER|::|$X.851|)))
+           |COMMON-LISP-USER|::|I|))))))
+    |COMMON-LISP-USER|::|ADD-TEST|)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))

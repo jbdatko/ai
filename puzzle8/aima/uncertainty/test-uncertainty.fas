@@ -1,0 +1,21 @@
+(|SYSTEM|::|VERSION| '(20080430.))
+#0Y_ #0Y |CHARSET|::|UTF-8|
+#Y(#:|1 12 (DEFTEST UNCERTAINTY "Test code for reasoning with uncertainty.  Currently, just MDPs." ...)-1|
+   #16Y(00 00 00 00 00 00 00 00 20 01 DA DB 30 02 19 01)
+   (|COMMON-LISP-USER|::|UNCERTAINTY|
+    ("Test code for reasoning with uncertainty.  Currently, just MDPs."
+     "Given the MDP (Markov Decision Process) for the 4x3 grid from Ch.s 17, 20,"
+     "create an agent, and an environment corresponding to the MDP."
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|AGENT|
+       (|COMMON-LISP-USER|::|MAKE-MDP-AGENT| :|MDP|
+        |COMMON-LISP-USER|::|*4X3-MDP*| :|ALGORITHM|
+        '|COMMON-LISP-USER|::|VALUE-ITERATION-POLICY|)))
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|ENV|
+       (|COMMON-LISP-USER|::|MAKE-MDP-ENVIRONMENT| :|MDP|
+        |COMMON-LISP-USER|::|*4X3-MDP*| :|AGENTS|
+        (|COMMON-LISP|::|LIST| |COMMON-LISP-USER|::|AGENT|))))
+     "Now run the agent in the environment."
+     "If all goes well, we get to the (4 3) terminal square."
+     ((|COMMON-LISP-USER|::|RUN-ENVIRONMENT| |COMMON-LISP-USER|::|ENV|)))
+    |COMMON-LISP-USER|::|ADD-TEST|)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))

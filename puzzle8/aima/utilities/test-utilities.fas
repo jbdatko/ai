@@ -1,0 +1,158 @@
+(|SYSTEM|::|VERSION| '(20080430.))
+#0Y_ #0Y |CHARSET|::|UTF-8|
+#Y(#:|1 67 (DEFTEST UTILITIES "Test all the utility functions." ...)-1|
+   #16Y(00 00 00 00 00 00 00 00 20 01 DA DB 30 02 19 01)
+   (|COMMON-LISP-USER|::|UTILITIES|
+    ("Test all the utility functions." "Test the CLOS implementation"
+     ((|COMMON-LISP-USER|::|DEFSTRUCTURE| |COMMON-LISP-USER|::|SHAPE|))
+     ((|COMMON-LISP-USER|::|DEFSTRUCTURE|
+       (|COMMON-LISP-USER|::|TRIANGLE|
+        (:|INCLUDE| |COMMON-LISP-USER|::|SHAPE|))
+       |COMMON-LISP-USER|::|BASE| |COMMON-LISP-USER|::|HEIGHT|))
+     ((|COMMON-LISP-USER|::|DEFSTRUCTURE|
+       (|COMMON-LISP-USER|::|RECTANGLE|
+        (:|INCLUDE| |COMMON-LISP-USER|::|SHAPE|))
+       |COMMON-LISP-USER|::|HEIGHT| |COMMON-LISP-USER|::|WIDTH|))
+     ((|CLOS|::|DEFMETHOD| |COMMON-LISP-USER|::|AREA|
+       ((|COMMON-LISP-USER|::|X| |COMMON-LISP-USER|::|TRIANGLE|))
+       (|COMMON-LISP|::|*| #10r1/2
+        (|COMMON-LISP-USER|::|TRIANGLE-BASE| |COMMON-LISP-USER|::|X|)
+        (|COMMON-LISP-USER|::|TRIANGLE-HEIGHT| |COMMON-LISP-USER|::|X|))))
+     ((|CLOS|::|DEFMETHOD| |COMMON-LISP-USER|::|AREA|
+       ((|COMMON-LISP-USER|::|X| |COMMON-LISP-USER|::|RECTANGLE|))
+       (|COMMON-LISP|::|*|
+        (|COMMON-LISP-USER|::|RECTANGLE-HEIGHT| |COMMON-LISP-USER|::|X|)
+        (|COMMON-LISP-USER|::|RECTANGLE-WIDTH| |COMMON-LISP-USER|::|X|))))
+     ((|COMMON-LISP-USER|::|AREA|
+       (|COMMON-LISP-USER|::|MAKE-TRIANGLE| :|BASE| 10. :|HEIGHT| 10.))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*| 50.))
+     ((|COMMON-LISP-USER|::|AREA|
+       (|COMMON-LISP-USER|::|MAKE-RECTANGLE| :|WIDTH| 10. :|HEIGHT| 10.))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*| 100.))
+     ((|CLOS|::|DEFMETHOD| |COMMON-LISP-USER|::|FEATURES|
+       ((|COMMON-LISP-USER|::|X| |COMMON-LISP-USER|::|SHAPE|))
+       '(|COMMON-LISP-USER|::|SHAPELY|)))
+     ((|CLOS|::|DEFMETHOD| |COMMON-LISP-USER|::|FEATURES|
+       ((|COMMON-LISP-USER|::|X| |COMMON-LISP-USER|::|TRIANGLE|))
+       (|COMMON-LISP|::|CONS|
+        (|COMMON-LISP|::|IF|
+         (|COMMON-LISP|::|EQL| 0.
+          (|COMMON-LISP-USER|::|TRIANGLE-BASE| |COMMON-LISP-USER|::|X|))
+         '|COMMON-LISP-USER|::|LINE| '|COMMON-LISP-USER|::|TRIANGLE|)
+        (|CLOS|::|CALL-NEXT-METHOD|))))
+     ((|COMMON-LISP-USER|::|FEATURES|
+       (|COMMON-LISP-USER|::|MAKE-TRIANGLE| :|BASE| 0. :|HEIGHT| 10.))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*|
+       '(|COMMON-LISP-USER|::|LINE| |COMMON-LISP-USER|::|SHAPELY|)))
+     ((|COMMON-LISP-USER|::|FEATURES|
+       (|COMMON-LISP-USER|::|MAKE-TRIANGLE| :|BASE| 1. :|HEIGHT| 10.))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*|
+       '(|COMMON-LISP-USER|::|TRIANGLE| |COMMON-LISP-USER|::|SHAPELY|)))
+     "Now, some operations on lists."
+     ((|COMMON-LISP-USER|::|LENGTH>1|
+       '(|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|C|))
+      |COMMON-LISP|::|*|)
+     ((|COMMON-LISP-USER|::|RANDOM-ELEMENT|
+       '(|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|C|))
+      (|COMMON-LISP|::|MEMBER| |COMMON-LISP|::|*|
+       '(|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|C|)))
+     ((|COMMON-LISP-USER|::|MAPPEND| #'|COMMON-LISP|::|REVERSE|
+       '((|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+          |COMMON-LISP-USER|::|C|)
+         (1. 2. 3.)))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*|
+       '(|COMMON-LISP-USER|::|C| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|A| 3. 2. 1.)))
+     ((|COMMON-LISP-USER|::|STARTS-WITH|
+       '(|COMMON-LISP-USER|::|HI| |COMMON-LISP-USER|::|THERE|)
+       '|COMMON-LISP-USER|::|HI|)
+      |COMMON-LISP|::|*|)
+     ((|COMMON-LISP-USER|::|LAST1|
+       '(|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|C|))
+      (|COMMON-LISP|::|EQ| |COMMON-LISP|::|*| '|COMMON-LISP-USER|::|C|))
+     ((|COMMON-LISP-USER|::|TRANSPOSE|
+       '((|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+          |COMMON-LISP-USER|::|C|)
+         (|COMMON-LISP-USER|::|D| |COMMON-LISP-USER|::|E|
+          |COMMON-LISP-USER|::|F|)))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*|
+       '((|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|D|)
+         (|COMMON-LISP-USER|::|B| |COMMON-LISP-USER|::|E|)
+         (|COMMON-LISP-USER|::|C| |COMMON-LISP-USER|::|F|))))
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|L|
+       '(|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|C|)))
+     ((|COMMON-LISP-USER|::|DELETEF| '|COMMON-LISP-USER|::|A|
+       |COMMON-LISP-USER|::|L|)
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP-USER|::|L|
+       '(|COMMON-LISP-USER|::|B| |COMMON-LISP-USER|::|C|)))
+     "Now for 2-dimensional points."
+     ((|COMMON-LISP-USER|::|XY-ADD| (|COMMON-LISP-USER|::|@| 1. 2.)
+       (|COMMON-LISP-USER|::|@| 10. 20.))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*|
+       (|COMMON-LISP-USER|::|@| 11. 22.)))
+     ((|COMMON-LISP-USER|::|XY-DISTANCE| (|COMMON-LISP-USER|::|@| 0. 0.)
+       (|COMMON-LISP-USER|::|@| 3. 4.))
+      (|COMMON-LISP|::|=| |COMMON-LISP|::|*| 5.))
+     "Numeric utilities"
+     ((|COMMON-LISP-USER|::|AVERAGE| '(10. 20. 30.))
+      (|COMMON-LISP|::|=| |COMMON-LISP|::|*| 20.))
+     ((|COMMON-LISP-USER|::|SUM| '(10. 20. 30.))
+      (|COMMON-LISP|::|=| |COMMON-LISP|::|*| 60.))
+     ((|COMMON-LISP-USER|::|SUM| '(1. 2. 3.) #'|COMMON-LISP-USER|::|SQUARE|)
+      (|COMMON-LISP|::|=| |COMMON-LISP|::|*| 14.))
+     ((|COMMON-LISP-USER|::|RANDOM-INTEGER| 8. 10.)
+      (|COMMON-LISP|::|MEMBER| |COMMON-LISP|::|*| '(8. 9. 10.)))
+     ((|COMMON-LISP-USER|::|FUZZ| 10.)
+      (|COMMON-LISP|::|<=| 9. |COMMON-LISP|::|*| 11.))
+     ((|COMMON-LISP-USER|::|ROUND-OFF| 3.14159f0 0.01f0)
+      (|COMMON-LISP|::|<| 3.139f0 |COMMON-LISP|::|*| 3.141f0))
+     "Other"
+     ((|COMMON-LISP-USER|::|STRINGIFY|
+       '(|COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+         |COMMON-LISP-USER|::|C|))
+      (|COMMON-LISP|::|EQUALP| |COMMON-LISP|::|*| "(A B C)"))
+     ((|COMMON-LISP-USER|::|CONCAT-SYMBOL| '|COMMON-LISP-USER|::|A| 1.)
+      (|COMMON-LISP|::|EQ| |COMMON-LISP|::|*| '|COMMON-LISP-USER|::|A1|))
+     ((|COMMON-LISP|::|FUNCALL|
+       (|COMMON-LISP-USER|::|COMPOSE| #'|COMMON-LISP|::|-|
+        #'|COMMON-LISP|::|SQRT|)
+       16.)
+      (|COMMON-LISP|::|=| |COMMON-LISP|::|*| -4.))
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|NUMS|
+       '(1. 2. 3. 4. -5. -2. -1.)))
+     ((|COMMON-LISP-USER|::|THE-BIGGEST| #'|COMMON-LISP|::|IDENTITY|
+       |COMMON-LISP-USER|::|NUMS|)
+      (|COMMON-LISP|::|EQL| |COMMON-LISP|::|*| 4.))
+     ((|COMMON-LISP-USER|::|THE-BIGGEST| #'|COMMON-LISP|::|ABS|
+       |COMMON-LISP-USER|::|NUMS|)
+      (|COMMON-LISP|::|EQL| |COMMON-LISP|::|*| -5.))
+     ((|COMMON-LISP-USER|::|THE-BIGGEST-THAT| #'|COMMON-LISP|::|IDENTITY|
+       #'|COMMON-LISP|::|ODDP| |COMMON-LISP-USER|::|NUMS|)
+      (|COMMON-LISP|::|EQL| |COMMON-LISP|::|*| 3.))
+     ((|COMMON-LISP-USER|::|THE-SMALLEST-RANDOM-TIE| #'|COMMON-LISP|::|ABS|
+       |COMMON-LISP-USER|::|NUMS|)
+      (|COMMON-LISP|::|MEMBER| |COMMON-LISP|::|*| '(1. -1.)))
+     "Now test the priority queue code."
+     ((|COMMON-LISP-USER|::|HEAP-SORT| '(1. 4. 3. 5. 2. 0.))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*| '(0. 1. 2. 3. 4. 5.)))
+     ((|COMMON-LISP-USER|::|HEAP-SORT| '(1. 4. 3. 5. 2. 6.) :|KEY|
+       #'|COMMON-LISP|::|-|)
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*| '(6. 5. 4. 3. 2. 1.)))
+     "Now destructuring-bind"
+     ((|COMMON-LISP|::|DESTRUCTURING-BIND|
+       ((|COMMON-LISP-USER|::|A| . |COMMON-LISP-USER|::|B|)
+        |COMMON-LISP-USER|::|C| |COMMON-LISP|::|&REST| |COMMON-LISP-USER|::|D|
+        |COMMON-LISP|::|&KEY| |COMMON-LISP-USER|::|E|
+        (|COMMON-LISP-USER|::|F| 5.))
+       '((1. . 2.) 3. :|E| 4.)
+       (|COMMON-LISP|::|LIST| |COMMON-LISP-USER|::|A| |COMMON-LISP-USER|::|B|
+        |COMMON-LISP-USER|::|C| |COMMON-LISP-USER|::|D| |COMMON-LISP-USER|::|E|
+        |COMMON-LISP-USER|::|F|))
+      (|COMMON-LISP|::|EQUAL| |COMMON-LISP|::|*| '(1. 2. 3. (:|E| 4.) 4. 5.))))
+    |COMMON-LISP-USER|::|ADD-TEST|)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))

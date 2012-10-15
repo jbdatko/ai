@@ -1,0 +1,200 @@
+(|SYSTEM|::|VERSION| '(20080430.))
+#0Y_ #0Y |CHARSET|::|UTF-8|
+#Y(#:|1 101 (DEFTEST LOGIC "Some simple examples in Propositional Logic" ...)-1|
+   #16Y(00 00 00 00 00 00 00 00 20 01 DA DB 30 02 19 01)
+   (|COMMON-LISP-USER|::|LOGIC|
+    ("Some simple examples in Propositional Logic"
+     "First, just test the infix reader."
+     ((|COMMON-LISP-USER|::|LOGIC| "P=>Q <=> ~Q=>~P")
+      '(|COMMON-LISP-USER|::|<=>|
+        (|COMMON-LISP-USER|::|=>| |COMMON-LISP-USER|::|P|
+         |COMMON-LISP-USER|::|Q|)
+        (|COMMON-LISP-USER|::|=>|
+         (|COMMON-LISP|::|NOT| |COMMON-LISP-USER|::|Q|)
+         (|COMMON-LISP|::|NOT| |COMMON-LISP-USER|::|P|))))
+     "Print a truth table, as on [p 169]."
+     ((|COMMON-LISP-USER|::|TRUTH-TABLE| "(P | H) ^ ~H => P"))
+     "Some simple examples"
+     ((|COMMON-LISP-USER|::|VALIDITY| "P=>Q <=> ~Q=>~P")
+      '|COMMON-LISP-USER|::|VALID|)
+     ((|COMMON-LISP-USER|::|VALIDITY| "SillyQuestion")
+      '|COMMON-LISP-USER|::|SATISFIABLE|)
+     ((|COMMON-LISP-USER|::|VALIDITY| "~SillyQuestion")
+      '|COMMON-LISP-USER|::|SATISFIABLE|)
+     ((|COMMON-LISP-USER|::|VALIDITY| "ToBe or not ToBe")
+      '|COMMON-LISP-USER|::|VALID|)
+     ((|COMMON-LISP-USER|::|VALIDITY| "ToBe and not ToBe")
+      '|COMMON-LISP-USER|::|UNSATISFIABLE|)
+     ((|COMMON-LISP-USER|::|VALIDITY|
+       "((S => W1|W2|W3|W4) ^ S ^ (~W1^~W2^~W3)) => W4")
+      '|COMMON-LISP-USER|::|VALID|)
+     ((|COMMON-LISP-USER|::|VALIDITY| "Ok ^ (Ok <=> ~W^~P) => ~W")
+      '|COMMON-LISP-USER|::|VALID|)
+     ((|COMMON-LISP|::|SETF| |COMMON-LISP-USER|::|KB|
+       (|COMMON-LISP-USER|::|MAKE-PROP-KB|)))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "S => W1|W2|W3|W4"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "S"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "~W1"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "~W2"))
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB| "W4")
+      '|COMMON-LISP|::|NIL|)
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "~W3"))
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB| "W4")
+      '|COMMON-LISP|::|T|)
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "Ok <=> ~W ^ ~P"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "Ok"))
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB| "W")
+      '|COMMON-LISP|::|NIL|)
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB| "~W")
+      '|COMMON-LISP|::|T|)
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB| "ToBe and ~ToBe"))
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB| "SillyQuestion")
+      '|COMMON-LISP|::|T|)
+     "A look at Normal forms (conjunctive, implicative, and Horn)."
+     ((|COMMON-LISP-USER|::|->CNF|
+       '(|COMMON-LISP-USER|::|<=>| |COMMON-LISP-USER|::|P|
+         |COMMON-LISP-USER|::|Q|))
+      '(|COMMON-LISP|::|AND|
+        (|COMMON-LISP|::|OR| |COMMON-LISP-USER|::|P|
+         (|COMMON-LISP|::|NOT| |COMMON-LISP-USER|::|Q|))
+        (|COMMON-LISP|::|OR| (|COMMON-LISP|::|NOT| |COMMON-LISP-USER|::|P|)
+         |COMMON-LISP-USER|::|Q|)))
+     ((|COMMON-LISP-USER|::|->INF|
+       '(|COMMON-LISP-USER|::|<=>| |COMMON-LISP-USER|::|P|
+         |COMMON-LISP-USER|::|Q|))
+      '(|COMMON-LISP|::|AND|
+        (|COMMON-LISP-USER|::|=>| |COMMON-LISP-USER|::|Q|
+         |COMMON-LISP-USER|::|P|)
+        (|COMMON-LISP-USER|::|=>| |COMMON-LISP-USER|::|P|
+         |COMMON-LISP-USER|::|Q|)))
+     ((|COMMON-LISP-USER|::|->HORN|
+       '(|COMMON-LISP-USER|::|<=>| |COMMON-LISP-USER|::|P|
+         |COMMON-LISP-USER|::|Q|))
+      '(|COMMON-LISP|::|AND|
+        (|COMMON-LISP-USER|::|=>| |COMMON-LISP-USER|::|Q|
+         |COMMON-LISP-USER|::|P|)
+        (|COMMON-LISP-USER|::|=>| |COMMON-LISP-USER|::|P|
+         |COMMON-LISP-USER|::|Q|)))
+     ((|COMMON-LISP-USER|::|->CNF|
+       '(|COMMON-LISP-USER|::|=>|
+         (|COMMON-LISP|::|NOT| |COMMON-LISP-USER|::|P|)
+         |COMMON-LISP-USER|::|R|))
+      '(|COMMON-LISP|::|OR| |COMMON-LISP-USER|::|R| |COMMON-LISP-USER|::|P|))
+     ((|COMMON-LISP-USER|::|->INF|
+       '(|COMMON-LISP-USER|::|=>|
+         (|COMMON-LISP|::|NOT| |COMMON-LISP-USER|::|P|)
+         |COMMON-LISP-USER|::|R|))
+      '(|COMMON-LISP-USER|::|=>| |COMMON-LISP-USER|::|TRUE|
+        (|COMMON-LISP|::|OR| |COMMON-LISP-USER|::|R| |COMMON-LISP-USER|::|P|)))
+     "Use the KB to solve the `Wumpus at [1,3]' problem [p 174-176]."
+     "This builds a KB with 12 propositional symbols -- about the max."
+     "you can do without starting to slow down."
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|KB1|
+       (|COMMON-LISP-USER|::|MAKE-PROP-KB|)))
+     "The initial state of knowledge"
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB1|
+       "~S11 ^ ~S21 ^S12 ^ ~B11 ^ B21 ^ ~B12"))
+     "Rules R1 through R4"
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB1|
+       "~S11 => ~W11 ^ ~W12 ^ ~W21"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB1|
+       "~S21 => ~W11 ^ ~W21 ^ ~W22 ^ ~W31"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB1|
+       "~S12 => ~W11 ^ ~W12 ^ ~W22 ^ ~W13"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB1|
+       "S12 => W13 | W12 | W22 | W11"))
+     "Now the query -- this may take a while."
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB1| "W13")
+      |COMMON-LISP|::|*|)
+     "Now a quick demo of the Horn Logic backward chainer."
+     ((|COMMON-LISP|::|SETF| |COMMON-LISP-USER|::|KB2|
+       (|COMMON-LISP-USER|::|MAKE-HORN-KB|)))
+     "Now we define the Member predicate."
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       "Member(x,Cons(x,y))"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       "Member(x,rest) => Member(x,Cons(y,rest))"))
+     ((|COMMON-LISP-USER|::|ASK-EACH| |COMMON-LISP-USER|::|KB2|
+       "Member(x,Cons(1,Cons(2,Cons(3,Nil))))" #'|COMMON-LISP|::|PRINT|))
+     ((|COMMON-LISP-USER|::|ASK-PATTERNS| |COMMON-LISP-USER|::|KB2|
+       "Member(x,Cons(1,Cons(2,Cons(3,Nil))))" "x")
+      '(1. 2. 3.))
+     ((|COMMON-LISP-USER|::|ASK-PATTERN| |COMMON-LISP-USER|::|KB2|
+       "Member(x,Cons(1,Cons(2,Cons(3,Nil)))) & x=2" "x")
+      '2.)
+     ((|COMMON-LISP-USER|::|ASK-PATTERNS| |COMMON-LISP-USER|::|KB2|
+       "s = Cons(1,Cons(2,Nil))\n
+                        & Member(x,s) & Member(y,s)"
+       '(|COMMON-LISP-USER|::|$X| |COMMON-LISP-USER|::|$Y|))
+      '((1. 1.) (1. 2.) (2. 1.) (2. 2.)))
+     "A family relationships knowledge base and problem."
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|MOTHER| |COMMON-LISP-USER|::|GERDA|
+         |COMMON-LISP-USER|::|PETER|)))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|FATHER| |COMMON-LISP-USER|::|TORSTEN|
+         |COMMON-LISP-USER|::|PETER|)))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|FATHER| |COMMON-LISP-USER|::|PETER|
+         |COMMON-LISP-USER|::|ISABELLA|)))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|FATHER| |COMMON-LISP-USER|::|PETER|
+         |COMMON-LISP-USER|::|JULIET|)))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|=>|
+         (|COMMON-LISP-USER|::|MOTHER| |COMMON-LISP-USER|::|$X|
+          |COMMON-LISP-USER|::|$Y|)
+         (|COMMON-LISP-USER|::|PARENT| |COMMON-LISP-USER|::|$X|
+          |COMMON-LISP-USER|::|$Y|))))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|=>|
+         (|COMMON-LISP-USER|::|FATHER| |COMMON-LISP-USER|::|$X|
+          |COMMON-LISP-USER|::|$Y|)
+         (|COMMON-LISP-USER|::|PARENT| |COMMON-LISP-USER|::|$X|
+          |COMMON-LISP-USER|::|$Y|))))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|=>|
+         (|COMMON-LISP|::|AND|
+          (|COMMON-LISP-USER|::|PARENT| |COMMON-LISP-USER|::|$G|
+           |COMMON-LISP-USER|::|$P|)
+          (|COMMON-LISP-USER|::|PARENT| |COMMON-LISP-USER|::|$P|
+           |COMMON-LISP-USER|::|$C|))
+         (|COMMON-LISP-USER|::|GRAND-PARENT| |COMMON-LISP-USER|::|$G|
+          |COMMON-LISP-USER|::|$C|))))
+     ((|COMMON-LISP-USER|::|ASK-PATTERNS| |COMMON-LISP-USER|::|KB2|
+       '(|COMMON-LISP-USER|::|GRAND-PARENT| |COMMON-LISP-USER|::|$X|
+         |COMMON-LISP-USER|::|$Y|))
+      '((|COMMON-LISP-USER|::|GRAND-PARENT| |COMMON-LISP-USER|::|GERDA|
+         |COMMON-LISP-USER|::|ISABELLA|)
+        (|COMMON-LISP-USER|::|GRAND-PARENT| |COMMON-LISP-USER|::|GERDA|
+         |COMMON-LISP-USER|::|JULIET|)
+        (|COMMON-LISP-USER|::|GRAND-PARENT| |COMMON-LISP-USER|::|TORSTEN|
+         |COMMON-LISP-USER|::|ISABELLA|)
+        (|COMMON-LISP-USER|::|GRAND-PARENT| |COMMON-LISP-USER|::|TORSTEN|
+         |COMMON-LISP-USER|::|JULIET|)))
+     "Now the 'Criminal' problem from [p 271-272]."
+     ((|COMMON-LISP|::|SETF| |COMMON-LISP-USER|::|KB3|
+       (|COMMON-LISP-USER|::|MAKE-HORN-KB|)))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3|
+       "American(x) ^ Weapon(y) ^ Nation(z) ^ Hostile(z) ^ Sells(x,z,y)\n
+		 => Criminal(x)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3| "Owns(Nono,M1)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3| "Missle(M1)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3|
+       "Owns(Nono,x) ^ Missle(x) => Sells(West,Nono,x)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3|
+       "Missle(x) => Weapon(x)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3|
+       "Enemy(x,America) => Hostile(x)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3| "American(West)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3| "Nation(Nono)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3|
+       "Enemy(Nono,America)"))
+     ((|COMMON-LISP-USER|::|TELL| |COMMON-LISP-USER|::|KB3| "Nation(America)"))
+     ((|COMMON-LISP-USER|::|ASK| |COMMON-LISP-USER|::|KB3| "Criminal(West)")
+      '|COMMON-LISP|::|T|)
+     ((|COMMON-LISP-USER|::|ASK-PATTERN| |COMMON-LISP-USER|::|KB3|
+       "Criminal(x)" "x")
+      '|COMMON-LISP-USER|::|WEST|))
+    |COMMON-LISP-USER|::|ADD-TEST|)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))

@@ -1,0 +1,136 @@
+(|SYSTEM|::|VERSION| '(20080430.))
+#0Y_ #0Y |CHARSET|::|UTF-8|
+#Y(#:|1 80 (DEFTEST SEARCH "Test the code for Solving Problems by Searching" ...)-1|
+   #16Y(00 00 00 00 00 00 00 00 20 01 DA DB 30 02 19 01)
+   (|COMMON-LISP|::|SEARCH|
+    ("Test the code for Solving Problems by Searching"
+     "Start with a trivial version of the missionaries and cannibals puzzle."
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|P1|
+       (|COMMON-LISP-USER|::|MAKE-CANNIBAL-PROBLEM| :|INITIAL-STATE|
+        (|COMMON-LISP-USER|::|MAKE-CANNIBAL-STATE| :|M1| 2. :|C1| 1.))))
+     "We search for a solution node:"
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|RESULT|
+       (|COMMON-LISP-USER|::|BREADTH-FIRST-SEARCH| |COMMON-LISP-USER|::|P1|))
+      |COMMON-LISP|::|*|)
+     "We can get information out of that solution:"
+     ((|COMMON-LISP-USER|::|SOLUTION-ACTIONS| |COMMON-LISP-USER|::|RESULT|)
+      |COMMON-LISP|::|*|)
+     ((|COMMON-LISP-USER|::|SOLUTION-NODES| |COMMON-LISP-USER|::|RESULT|)
+      |COMMON-LISP|::|*|)
+     "Or we can use SOLVE to print the results nicely. By default, SOLVE\n
+  uses A*-search, but you can give it another algorithm as the second arg."
+     ((|COMMON-LISP-USER|::|SOLVE| |COMMON-LISP-USER|::|P1|)
+      |COMMON-LISP|::|*|)
+     "For the full 3 missionary and 3 cannibal problem, breadth-first-search"
+     "is very inefficient.  Better to use something that handles repeated states,"
+     "like A*-search or no-duplicates-breadth-first-search:"
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-CANNIBAL-PROBLEM|)
+       '|COMMON-LISP-USER|::|A*-SEARCH|)
+      |COMMON-LISP|::|*|)
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-CANNIBAL-PROBLEM|)
+       '|COMMON-LISP-USER|::|NO-DUPLICATES-BREADTH-FIRST-SEARCH|)
+      |COMMON-LISP|::|*|)
+     "Here is how to get a problem-solving agent to find the solution,"
+     "and then go ahead and execute the actions that comprise the solution."
+     ((|COMMON-LISP-USER|::|RUN-ENVIRONMENT|
+       (|COMMON-LISP-USER|::|PROBLEM->ENVIRONMENT| |COMMON-LISP-USER|::|P1|)))
+     "Now we look at the route-finding domain."
+     "First, solve the Arad-to-Bucharest problem with A*-search:"
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-ROMANIAN-PROBLEM| :|INITIAL-STATE|
+        '|COMMON-LISP-USER|::|ARAD| :|GOAL| '|COMMON-LISP-USER|::|BUCHAREST|))
+      |COMMON-LISP|::|*|)
+     "Now turn it around:"
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-ROMANIAN-PROBLEM| :|GOAL|
+        '|COMMON-LISP-USER|::|ARAD| :|INITIAL-STATE|
+        '|COMMON-LISP-USER|::|BUCHAREST|))
+      |COMMON-LISP|::|*|)
+     "Let's just see the actions:"
+     ((|COMMON-LISP-USER|::|SOLUTION-ACTIONS|
+       (|COMMON-LISP-USER|::|A*-SEARCH|
+        (|COMMON-LISP-USER|::|MAKE-ROMANIAN-PROBLEM|)))
+      '(|COMMON-LISP-USER|::|SIBIU| |COMMON-LISP-USER|::|RIMNICU|
+        |COMMON-LISP-USER|::|PITESTI| |COMMON-LISP-USER|::|BUCHAREST|))
+     "Now on a random map:"
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-ROUTE-FINDING-PROBLEM|)))
+     "Here's how to compare several algorithms."
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|SEARCHERS|
+       '(|COMMON-LISP-USER|::|A*-SEARCH|
+         |COMMON-LISP-USER|::|NO-CYCLES-DEPTH-FIRST-SEARCH|
+         |COMMON-LISP-USER|::|NO-DUPLICATES-BREADTH-FIRST-SEARCH|)))
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       #'|COMMON-LISP-USER|::|MAKE-ROUTE-FINDING-PROBLEM|
+       |COMMON-LISP-USER|::|SEARCHERS|))
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       #'|COMMON-LISP-USER|::|MAKE-ROMANIAN-PROBLEM|
+       |COMMON-LISP-USER|::|SEARCHERS| :|N| 1.))
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       #'|COMMON-LISP-USER|::|MAKE-CANNIBAL-PROBLEM|
+       '(|COMMON-LISP-USER|::|NO-RETURNS-BREADTH-FIRST-SEARCH|
+         |COMMON-LISP-USER|::|A*-SEARCH|
+         |COMMON-LISP-USER|::|NO-DUPLICATES-BREADTH-FIRST-SEARCH|)
+       :|N| 1.))
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       #'|COMMON-LISP-USER|::|MAKE-ROMANIAN-PROBLEM|
+       '(|COMMON-LISP-USER|::|TREE-A*-SEARCH| |COMMON-LISP-USER|::|A*-SEARCH|
+         |COMMON-LISP-USER|::|TREE-IDA*-SEARCH|)
+       :|N| 1.))
+     "We'll look at the iterative improvement algorithms on a harder map problem."
+     ((|COMMON-LISP|::|SETQ| |COMMON-LISP-USER|::|SEARCHERS|
+       '(|COMMON-LISP-USER|::|A*-SEARCH|
+         |COMMON-LISP-USER|::|HILL-CLIMBING-SEARCH|
+         |COMMON-LISP-USER|::|SIMULATED-ANNEALING-SEARCH|)))
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       #'(|COMMON-LISP|::|LAMBDA| |COMMON-LISP|::|NIL|
+          (|COMMON-LISP-USER|::|MAKE-ROMANIAN-PROBLEM| :|GOAL|
+           '|COMMON-LISP-USER|::|IASI|))
+       |COMMON-LISP-USER|::|SEARCHERS| :|N| 1.))
+     "Let's take a look at the 8-puzzle:"
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-8-PUZZLE-PROBLEM|))
+      |COMMON-LISP|::|*|)
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       '|COMMON-LISP-USER|::|MAKE-8-PUZZLE-PROBLEM|
+       '(|COMMON-LISP-USER|::|A*-SEARCH|) :|N| 2.))
+     "And the path-planning problem among polygonal obstacles:"
+     ((|COMMON-LISP-USER|::|SOLVE|
+       (|COMMON-LISP-USER|::|MAKE-PATH-PLANNING-PROBLEM| :|SCENE|
+        |COMMON-LISP-USER|::|*SCENE-4.17*|)))
+     "Now the 8-queens problem"
+     ((|COMMON-LISP-USER|::|SOLVE| (|COMMON-LISP-USER|::|MAKE-NQUEENS-PROBLEM|)
+       '|COMMON-LISP-USER|::|CSP-BACKTRACKING-SEARCH|)
+      |COMMON-LISP|::|*|)
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       '|COMMON-LISP-USER|::|MAKE-NQUEENS-PROBLEM|
+       '(|COMMON-LISP-USER|::|CSP-BACKTRACKING-SEARCH|
+         |COMMON-LISP-USER|::|CSP-FORWARD-CHECKING-SEARCH|)
+       :|N| 1.))
+     "Here is the Travelling Salesperson Problem (TSP)."
+     ((|COMMON-LISP-USER|::|SOLVE| (|COMMON-LISP-USER|::|MAKE-TSP-PROBLEM|)))
+     ((|COMMON-LISP-USER|::|COMPARE-SEARCH-ALGORITHMS|
+       '|COMMON-LISP-USER|::|MAKE-TSP-PROBLEM|
+       '(|COMMON-LISP-USER|::|A*-SEARCH| |COMMON-LISP-USER|::|GREEDY-SEARCH|
+         |COMMON-LISP-USER|::|UNIFORM-COST-SEARCH|)
+       :|N| 5.))
+     "Now we test the environments for 2-player and 3-player games:"
+     ((|COMMON-LISP-USER|::|RUN-GAME| (|COMMON-LISP-USER|::|MAKE-TTT-GAME|)))
+     ((|COMMON-LISP-USER|::|RUN-GAME|
+       (|COMMON-LISP-USER|::|MAKE-COGNAC-GAME| :|PLAYERS|
+        '(|COMMON-LISP-USER|::|X| |COMMON-LISP-USER|::|O|
+          |COMMON-LISP-USER|::|@|))))
+     "Now we see that 2x2 tic-tac-toe is a win for the first player, X."
+     ((|COMMON-LISP-USER|::|RUN-GAME|
+       (|COMMON-LISP-USER|::|MAKE-TTT-GAME| :|N| 2.) :|AGENTS|
+       '(|COMMON-LISP-USER|::|ALPHA-BETA-TTT-AGENT|
+         |COMMON-LISP-USER|::|ALPHA-BETA-TTT-AGENT|)))
+     "In a full 3x3 game, alpha-beta search (playing O) often wins."
+     ((|COMMON-LISP-USER|::|RUN-GAME| (|COMMON-LISP-USER|::|MAKE-TTT-GAME|)
+       :|AGENTS|
+       '(|COMMON-LISP-USER|::|RANDOM-GAME-AGENT|
+         |COMMON-LISP-USER|::|ALPHA-BETA-TTT-AGENT|))))
+    |COMMON-LISP-USER|::|ADD-TEST|)
+   (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
